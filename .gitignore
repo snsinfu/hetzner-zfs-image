@@ -1,0 +1,11 @@
+.*
+_*
+!.gitignore
+
+*.img
+
+terraform.tfstate
+terraform.tfstate.backup
+
+/image/packer_cache
+/image/output-debian
