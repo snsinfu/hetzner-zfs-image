@@ -126,13 +126,18 @@ END
 
 # CLOUDINIT ------------------------------------------------------------------
 
-# cloud-guest-utils is required for growpart.
-chroot ${ROOT} apt-get install ${APTFLAGS} cloud-init cloud-guest-utils
+# - cloud-init configures system on boot time
+# - cloud-guest-utils is required for growpart
+# - qemu-guest-agent is used to reset root password and to flush disk caches
+#   before taking a snapshot or a backup
+# https://docs.hetzner.com/cloud/technical-details/faq/#how-are-your-images-set-up
+chroot ${ROOT} apt-get install ${APTFLAGS} cloud-init cloud-guest-utils qemu-guest-agent
 
 chroot ${ROOT} systemctl enable cloud-init-local
 chroot ${ROOT} systemctl enable cloud-init
 chroot ${ROOT} systemctl enable cloud-config
 chroot ${ROOT} systemctl enable cloud-final
+chroot ${ROOT} systemctl enable qemu-guest-agent
 
 # cloud-init (cc_growpart) cannot auto-detect zpool device for resizing. So,
 # bake in the required configuration to the image.
