@@ -98,7 +98,7 @@ chroot ${ROOT} locale-gen
 chroot ${ROOT} apt-get install ${APTFLAGS} dpkg-dev linux-headers-${ARCH} linux-image-${ARCH}
 chroot ${ROOT} apt-get install ${APTFLAGS} -t ${CODENAME}-backports spl spl-dkms zfs-initramfs zfsutils-linux
 
-echo REMAKE_INITRD=yes > /etc/dkms/zfs.conf
+echo REMAKE_INITRD=yes > ${ROOT}/etc/dkms/zfs.conf
 
 # Bootloader.
 chroot ${ROOT} apt-get install ${APTFLAGS} grub-pc
