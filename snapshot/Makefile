@@ -5,8 +5,8 @@ ARTIFACTS = \
   _instance.ok \
   _transfer.ok \
   _snapshot.ok \
-  _authorized_keys \
-  _sshkey
+  _sshkey \
+  _known_hosts
 
 SSHFLAGS = \
   -o IdentitiesOnly=yes \
