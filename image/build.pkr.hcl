@@ -1,7 +1,17 @@
+variable "livecd_url" {
+  type        = string
+  description = "Release URL of the livecd iso"
+  default     = "https://cdimage.debian.org/debian-cd/10.8.0-live/amd64/iso-hybrid/debian-live-10.8.0-amd64-standard.iso"
+}
+
+locals {
+  checksum_url = regex_replace(var.livecd_url, "/[^/]*$", "/SHA256SUMS")
+}
+
 source "virtualbox-iso" "debian" {
   guest_os_type = "Debian_64"
-  iso_url = "https://cdimage.debian.org/debian-cd/10.7.0-live/amd64/iso-hybrid/debian-live-10.7.0-amd64-standard.iso"
-  iso_checksum = "file:https://cdimage.debian.org/debian-cd/10.7.0-live/amd64/iso-hybrid/SHA256SUMS"
+  iso_url = var.livecd_url
+  iso_checksum = "file:${local.checksum_url}"
   disk_size = 4096
   memory = 4096
   ssh_username = "user"
