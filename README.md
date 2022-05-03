@@ -53,7 +53,7 @@ The size of the snapshot is ~900MB. The storage cost then is ~0.01 €/month.
 
 ### Using the image
 
-The image is labeled with `image`=`debian-10-zfs`. You may want to use this
+The image is labeled with `image`=`debian-11-zfs`. You may want to use this
 label to select the image in a Terraform configuration.
 
 The image forbids root login and password authentication. You should supply the

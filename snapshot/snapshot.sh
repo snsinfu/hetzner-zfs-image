@@ -10,10 +10,10 @@ curl -f \
   "https://api.hetzner.cloud/v1/servers/${server_id}/actions/create_image" \
 << END
 {
-  "description": "Debian 10 ZFS",
+  "description": "Debian 11 ZFS",
   "type": "snapshot",
   "labels": {
-    "image": "debian-10-zfs"
+    "image": "debian-11-zfs"
   }
 }
 END

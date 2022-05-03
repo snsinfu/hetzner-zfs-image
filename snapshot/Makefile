@@ -6,7 +6,10 @@ ARTIFACTS = \
   _transfer.ok \
   _snapshot.ok \
   _sshkey \
-  _known_hosts
+  _sshkey.pub \
+  _known_hosts \
+  terraform.tfstate \
+  terraform.tfstate.backup
 
 SSHFLAGS = \
   -o IdentitiesOnly=yes \

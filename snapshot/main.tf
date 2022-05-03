@@ -2,7 +2,7 @@ resource "hcloud_server" "main" {
   name        = "debian"
   location    = "fsn1"
   server_type = "cx11"
-  image       = "debian-10"
+  image       = "debian-11"
   rescue      = "linux64"
   ssh_keys    = [hcloud_ssh_key.temporary.id]
 }

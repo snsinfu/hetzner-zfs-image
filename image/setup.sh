@@ -5,7 +5,7 @@ ROOT=/mnt
 POOL=main
 BOOTSIZE=512M
 POOLSIZE=2G
-CODENAME=buster
+CODENAME=bullseye
 ARCH=$(uname -r)
 APTFLAGS="-y --no-install-recommends"
 
@@ -22,7 +22,6 @@ export DEBIAN_FRONTEND=noninteractive
 
 cat > /etc/apt/sources.list <<END
 deb http://deb.debian.org/debian ${CODENAME} main contrib
-deb http://deb.debian.org/debian ${CODENAME}-backports main contrib
 END
 
 apt-get update
@@ -31,9 +30,9 @@ apt-get update
 # on the image that we build. Just to use `zpool create` and `zfs create` on
 # this livecd environment.
 apt-get install ${APTFLAGS} dkms dpkg-dev linux-headers-${ARCH}
-apt-get install ${APTFLAGS} -t ${CODENAME}-backports zfs-dkms
+apt-get install ${APTFLAGS} zfs-dkms
 modprobe zfs
-apt-get install ${APTFLAGS} -t ${CODENAME}-backports zfsutils-linux
+apt-get install ${APTFLAGS} zfsutils-linux
 
 # Tools for manual Debian installation.
 apt-get install ${APTFLAGS} debootstrap gdisk
@@ -75,16 +74,14 @@ mount --bind   /dev ${ROOT}/dev
 
 chroot ${ROOT} ln -s /proc/self/mounts /etc/mtab
 
-# Standard repositories plus backports (for ZFS).
+# Standard repositories with contrib for ZFS.
 cat > ${ROOT}/etc/apt/sources.list << END
-deb     http://deb.debian.org/debian/          ${CODENAME}           main contrib
-deb-src http://deb.debian.org/debian/          ${CODENAME}           main contrib
-deb     http://deb.debian.org/debian/          ${CODENAME}-backports main contrib
-deb-src http://deb.debian.org/debian/          ${CODENAME}-backports main contrib
-deb     http://deb.debian.org/debian-security/ ${CODENAME}/updates   main
-deb-src http://deb.debian.org/debian-security/ ${CODENAME}/updates   main
-deb     http://deb.debian.org/debian/          ${CODENAME}-updates   main
-deb-src http://deb.debian.org/debian/          ${CODENAME}-updates   main
+deb     http://deb.debian.org/debian/          ${CODENAME}          main contrib
+deb-src http://deb.debian.org/debian/          ${CODENAME}          main contrib
+deb     http://deb.debian.org/debian-security/ ${CODENAME}-security main contrib
+deb-src http://deb.debian.org/debian-security/ ${CODENAME}-security main contrib
+deb     http://deb.debian.org/debian/          ${CODENAME}-updates  main contrib
+deb-src http://deb.debian.org/debian/          ${CODENAME}-updates  main contrib
 END
 
 chroot ${ROOT} apt-get update
@@ -96,7 +93,7 @@ chroot ${ROOT} locale-gen
 
 # ZFS on Linux for the image environment.
 chroot ${ROOT} apt-get install ${APTFLAGS} dpkg-dev linux-headers-${ARCH} linux-image-${ARCH}
-chroot ${ROOT} apt-get install ${APTFLAGS} -t ${CODENAME}-backports spl spl-dkms zfs-initramfs zfsutils-linux
+chroot ${ROOT} apt-get install ${APTFLAGS} spl spl-dkms zfs-initramfs zfsutils-linux
 
 echo REMAKE_INITRD=yes > ${ROOT}/etc/dkms/zfs.conf
 
